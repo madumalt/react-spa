@@ -13,5 +13,4 @@
 
 // Other Constants
 export const DEFAULT_LOCALE = 'en';
-export const APP_SESSION_ID = 'appSessionId';
 export const APP = 'app';

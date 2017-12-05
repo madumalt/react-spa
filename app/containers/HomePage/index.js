@@ -25,15 +25,15 @@ import reducer from './reducer';
 import saga from './saga';
 import {
   HOME,
-} from './constants'
+} from './constants';
 
 class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { user, onClickUser, loginRequestUrl, loading } = this.props;
+    const { user, onClickUser, loginRequestUrl } = this.props;
     return (
       <div>
         <Header
-          title='Mobile Shop'
+          title="Mobile Shop"
           user={user}
           loginRequestUrl={loginRequestUrl}
           onClickUser={onClickUser}
@@ -44,22 +44,22 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
 }
 
 HomePage.propTypes = {
-  loading: PropTypes.bool,
+  loading: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
   user: PropTypes.object,
   loginRequestUrl: PropTypes.string,
   onClickUser: PropTypes.func,
 };
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onClickUser: () => {console.log('onClickUser')},
-  };
-}
+const mapDispatchToProps = (dispatch) => // eslint-disable-line no-unused-vars
+  ({
+    onClickUser: () => console.log('onClickUser'),
+  });
+
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectUser(),
   loading: makeSelectLoading(),
-  loginRequestUrl: makeSelecetLoginRequestUrl()
+  loginRequestUrl: makeSelecetLoginRequestUrl(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

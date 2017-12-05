@@ -44,5 +44,3 @@ export function requestJSON(url, options) {
     .then(checkJSONResponseStatus)
     .then(parseJSON);
 }
-
-

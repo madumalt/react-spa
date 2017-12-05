@@ -12,10 +12,7 @@
  */
 
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
-import { compose } from 'redux';
-
-import injectReducer from 'utils/injectReducer';
+import { Switch, Route } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
@@ -24,19 +21,14 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
-import reducer from './reducer';
-import {
-  APP,
-} from './constants';
-
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
         <div>
           <Switch>
-            <Route exact path="/" component={HomePage}/>
-            <Route component={NotFoundPage}/>
+            <Route exact path="/" component={HomePage} />
+            <Route component={NotFoundPage} />
           </Switch>
         </div>
       </MuiThemeProvider>
@@ -44,8 +36,4 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
   }
 }
 
-const withReducer = injectReducer({ key: APP, reducer });
-
-export default compose(
-  withReducer,
-)(App);
+export default App;

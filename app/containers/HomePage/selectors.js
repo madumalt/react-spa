@@ -5,7 +5,7 @@
 import { createSelector } from 'reselect';
 import {
   HOME,
-} from './constants'
+} from './constants';
 
 const selectHome = (state) => state.get(HOME);
 

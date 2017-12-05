@@ -21,29 +21,23 @@ import {
   SET_LOGIN_REQUEST_URL,
 } from './constants';
 
-const authenticatedUserFound = (user) => {
-  return {
-    type: AUTH_USER_FOUND,
-    user,
-  }
-};
+const authenticatedUserFound = (user) => ({
+  type: AUTH_USER_FOUND,
+  user,
+});
 
-const noAuthenticatedUser = () => {
-  return {
-    type: NO_AUTH_USER_FOUND,
-  }
-};
+const noAuthenticatedUser = () => ({
+  type: NO_AUTH_USER_FOUND,
+});
 
-const setLoginRequestUrl = (loginRequestUrl) => {
-  return {
-    type: SET_LOGIN_REQUEST_URL,
-    loginRequestUrl,
-  }
-};
+const setLoginRequestUrl = (loginRequestUrl) => ({
+  type: SET_LOGIN_REQUEST_URL,
+  loginRequestUrl,
+});
 
 
 export {
   authenticatedUserFound,
   noAuthenticatedUser,
   setLoginRequestUrl,
-}
+};

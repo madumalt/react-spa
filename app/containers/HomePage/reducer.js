@@ -40,14 +40,12 @@ const homeReducer = (state = initialState, action) => {
     case AUTH_USER_FOUND:
       return state
         .set('loading', false)
-        .set('user', {authenticated: true, name: action.user});
+        .set('user', { authenticated: true, name: action.user });
     default:
       return state;
   }
 };
 
-const getUserInitState = () => {
-  return {authenticated: false, name: ''}
-};
+const getUserInitState = () => ({ authenticated: false, name: '' });
 
 export default homeReducer;
