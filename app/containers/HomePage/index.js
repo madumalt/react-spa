@@ -10,15 +10,65 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 
-export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+
+import Header from 'components/Header';
+
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import { makeSelectUser, makeSelectLoading, makeSelecetLoginRequestUrl } from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+import {
+  HOME,
+} from './constants'
+
+class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { user, onClickUser, loginRequestUrl, loading } = this.props;
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <Header
+          title='Mobile Shop'
+          user={user}
+          loginRequestUrl={loginRequestUrl}
+          onClickUser={onClickUser}
+        />
+      </div>
     );
   }
 }
+
+HomePage.propTypes = {
+  loading: PropTypes.bool,
+  user: PropTypes.object,
+  loginRequestUrl: PropTypes.string,
+  onClickUser: PropTypes.func,
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    onClickUser: () => {console.log('onClickUser')},
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  user: makeSelectUser(),
+  loading: makeSelectLoading(),
+  loginRequestUrl: makeSelecetLoginRequestUrl()
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+const withReducer = injectReducer({ key: HOME, reducer });
+const withSaga = injectSaga({ key: HOME, saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(HomePage);
