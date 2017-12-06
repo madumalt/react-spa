@@ -19,6 +19,9 @@ import {
   AUTH_USER_FOUND,
   NO_AUTH_USER_FOUND,
   SET_LOGIN_REQUEST_URL,
+  SET_LOGOUT_REQUEST_URL,
+  TOGGLE_HOME_MENU,
+  TOGGLE_LOGOUT_MENU,
 } from './constants';
 
 const authenticatedUserFound = (user) => ({
@@ -26,7 +29,7 @@ const authenticatedUserFound = (user) => ({
   user,
 });
 
-const noAuthenticatedUser = () => ({
+const noAuthenticatedUserFound = () => ({
   type: NO_AUTH_USER_FOUND,
 });
 
@@ -35,9 +38,25 @@ const setLoginRequestUrl = (loginRequestUrl) => ({
   loginRequestUrl,
 });
 
+const setLogoutRequestUrl = (logoutRequestUrl) => ({
+  type: SET_LOGOUT_REQUEST_URL,
+  logoutRequestUrl,
+});
+
+const toggleHomeMenu = () => ({
+  type: TOGGLE_HOME_MENU,
+});
+
+const toggleLogoutMenu = () => ({
+  type: TOGGLE_LOGOUT_MENU,
+});
+
 
 export {
   authenticatedUserFound,
-  noAuthenticatedUser,
+  noAuthenticatedUserFound,
   setLoginRequestUrl,
+  setLogoutRequestUrl,
+  toggleHomeMenu,
+  toggleLogoutMenu,
 };

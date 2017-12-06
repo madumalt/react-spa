@@ -15,6 +15,9 @@ import {
   AUTH_USER_FOUND,
   NO_AUTH_USER_FOUND,
   SET_LOGIN_REQUEST_URL,
+  SET_LOGOUT_REQUEST_URL,
+  TOGGLE_HOME_MENU,
+  TOGGLE_LOGOUT_MENU,
 } from './constants';
 
 
@@ -26,6 +29,9 @@ const initialState = fromJS({
     name: '',
   },
   loginRequestUrl: '',
+  logoutRequestUrl: '',
+  showHomeMenu: false,
+  showLogoutMenu: false,
 });
 
 const homeReducer = (state = initialState, action) => {
@@ -35,12 +41,17 @@ const homeReducer = (state = initialState, action) => {
         .set('loading', false)
         .set('user', getUserInitState());
     case SET_LOGIN_REQUEST_URL:
-      return state
-        .set('loginRequestUrl', action.loginRequestUrl);
+      return state.set('loginRequestUrl', action.loginRequestUrl);
+    case SET_LOGOUT_REQUEST_URL:
+      return state.set('logoutRequestUrl', action.logoutRequestUrl);
     case AUTH_USER_FOUND:
       return state
         .set('loading', false)
         .set('user', { authenticated: true, name: action.user });
+    case TOGGLE_HOME_MENU:
+      return state.set('showHomeMenu', !state.get('showHomeMenu'));
+    case TOGGLE_LOGOUT_MENU:
+      return state.set('showLogoutMenu', !state.get('showLogoutMenu'));
     default:
       return state;
   }

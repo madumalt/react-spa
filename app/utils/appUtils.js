@@ -27,10 +27,13 @@ const getProxyLoginEndPoint = () => {
   return `https://localhost:8443/oauth2-proxy/login?spa-name=${spaName}&session-id=${getAppSessionId()}`;
 };
 
+const getProxyLogoutEndPoint = () => `https://localhost:8443/oauth2-proxy/logout?session-id=${getAppSessionId()}`;
+
 const getProxyUsersEndpoint = () => `https://localhost:8443/oauth2-proxy/users?session-id=${getAppSessionId()}`;
 
 export {
   getAppSessionId,
   getProxyLoginEndPoint,
+  getProxyLogoutEndPoint,
   getProxyUsersEndpoint,
 };

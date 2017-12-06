@@ -19,13 +19,31 @@ const makeSelectLoading = () => createSelector(
   (homeState) => homeState.get('loading')
 );
 
-const makeSelecetLoginRequestUrl = () => createSelector(
+const makeSelectLoginRequestUrl = () => createSelector(
   selectHome,
   (homeState) => homeState.get('loginRequestUrl')
+);
+
+const makeSelectLogoutRequestUrl = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('logoutRequestUrl')
+);
+
+const makeSelectShowHomeMenu = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('showHomeMenu')
+);
+
+const makeSelectShowLogoutMenu = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('showLogoutMenu')
 );
 
 export {
   makeSelectUser,
   makeSelectLoading,
-  makeSelecetLoginRequestUrl,
+  makeSelectLoginRequestUrl,
+  makeSelectLogoutRequestUrl,
+  makeSelectShowHomeMenu,
+  makeSelectShowLogoutMenu,
 };

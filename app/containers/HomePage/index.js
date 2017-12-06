@@ -20,23 +20,45 @@ import Header from 'components/Header';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { makeSelectUser, makeSelectLoading, makeSelecetLoginRequestUrl } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import {
+  makeSelectUser,
+  makeSelectLoading,
+  makeSelectLoginRequestUrl,
+  makeSelectLogoutRequestUrl,
+  makeSelectShowHomeMenu,
+  makeSelectShowLogoutMenu,
+} from './selectors';
+import {
+  toggleHomeMenu,
+  toggleLogoutMenu,
+} from './actions';
 import {
   HOME,
 } from './constants';
 
 class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { user, onClickUser, loginRequestUrl } = this.props;
+    const {
+      user,
+      loginRequestUrl,
+      logoutRequestUrl,
+      showHomeMenu,
+      showLogoutMenu,
+      onToggleHomeMenu,
+      onToggleLogoutMenu } = this.props;
     return (
       <div>
         <Header
           title="Mobile Shop"
           user={user}
           loginRequestUrl={loginRequestUrl}
-          onClickUser={onClickUser}
+          logoutRequestUrl={logoutRequestUrl}
+          showMainMenu={showHomeMenu}
+          showLogoutMenu={showLogoutMenu}
+          onToggleLogoutMenu={onToggleLogoutMenu}
+          onToggleMainMenu={onToggleHomeMenu}
         />
       </div>
     );
@@ -47,19 +69,27 @@ HomePage.propTypes = {
   loading: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
   user: PropTypes.object,
   loginRequestUrl: PropTypes.string,
-  onClickUser: PropTypes.func,
+  logoutRequestUrl: PropTypes.string,
+  showHomeMenu: PropTypes.bool,
+  showLogoutMenu: PropTypes.bool,
+  onToggleHomeMenu: PropTypes.func,
+  onToggleLogoutMenu: PropTypes.func,
 };
 
-const mapDispatchToProps = (dispatch) => // eslint-disable-line no-unused-vars
+const mapDispatchToProps = (dispatch) =>
   ({
-    onClickUser: () => console.log('onClickUser'),
+    onToggleHomeMenu: () => dispatch(toggleHomeMenu()),
+    onToggleLogoutMenu: () => dispatch(toggleLogoutMenu()),
   });
 
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectUser(),
   loading: makeSelectLoading(),
-  loginRequestUrl: makeSelecetLoginRequestUrl(),
+  loginRequestUrl: makeSelectLoginRequestUrl(),
+  logoutRequestUrl: makeSelectLogoutRequestUrl(),
+  showHomeMenu: makeSelectShowHomeMenu(),
+  showLogoutMenu: makeSelectShowLogoutMenu(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -13,6 +13,9 @@
 export const AUTH_USER_FOUND = 'authUserFound';
 export const NO_AUTH_USER_FOUND = 'noAuthUserFound';
 export const SET_LOGIN_REQUEST_URL = 'setLoginRequestUrl';
+export const SET_LOGOUT_REQUEST_URL = 'setLogoutRequestUrl';
+export const TOGGLE_HOME_MENU = 'toggleHomeMenu';
+export const TOGGLE_LOGOUT_MENU = 'toggleLogoutMenu';
 
 // Other Constants
 export const HOME = 'home';

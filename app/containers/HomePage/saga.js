@@ -3,26 +3,32 @@
  */
 import { call, put } from 'redux-saga/effects';
 
-import { authenticatedUserFound, noAuthenticatedUser, setLoginRequestUrl } from 'containers/HomePage/actions';
 import { requestJSON } from 'utils/request';
-import { getProxyLoginEndPoint, getProxyUsersEndpoint } from 'utils/appUtils';
+import { getProxyLoginEndPoint, getProxyUsersEndpoint, getProxyLogoutEndPoint } from 'utils/appUtils';
+import {
+  authenticatedUserFound,
+  noAuthenticatedUserFound,
+  setLoginRequestUrl,
+  setLogoutRequestUrl,
+} from './actions';
 
 function* callProxyUserEndPoint() {
-  const requestUrl = getProxyUsersEndpoint();
+  const userEndpoint = getProxyUsersEndpoint();
 
   try {
     // Call the proxy login endpoint via utils/request.
     const response = yield call(
       requestJSON,
-      requestUrl,
+      userEndpoint,
       {
         method: 'GET',
         credentials: 'include',
       }
     );
     yield put(authenticatedUserFound(response.sub));
+    yield put(setLogoutRequestUrl(getProxyLogoutEndPoint()));
   } catch (err) {
-    yield put(noAuthenticatedUser(err));
+    yield put(noAuthenticatedUserFound(err));
     yield put(setLoginRequestUrl(getProxyLoginEndPoint()));
   }
 }
