@@ -4,10 +4,10 @@
 
 import { createSelector } from 'reselect';
 import {
-  HOME,
+  HOME_PAGE,
 } from './constants';
 
-const selectHome = (state) => state.get(HOME);
+const selectHome = (state) => state.get(HOME_PAGE);
 
 const makeSelectUser = () => createSelector(
   selectHome,

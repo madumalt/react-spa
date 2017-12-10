@@ -1,5 +1,5 @@
 /*
- * HomeReducer
+ * HomePage Reducer
  *
  * The reducer takes care of our data. Using actions, we can change our
  * application state.
@@ -34,7 +34,7 @@ const initialState = fromJS({
   showLogoutMenu: false,
 });
 
-const homeReducer = (state = initialState, action) => {
+const homePageReducer = (state = initialState, action) => {
   switch (action.type) {
     case NO_AUTH_USER_FOUND:
       return state
@@ -59,4 +59,4 @@ const homeReducer = (state = initialState, action) => {
 
 const getUserInitState = () => ({ authenticated: false, name: '' });
 
-export default homeReducer;
+export default homePageReducer;

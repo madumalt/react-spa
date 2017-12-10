@@ -1,22 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
-import MenuItem from 'material-ui/MenuItem';
-import Paper from 'material-ui/Paper';
-import Menu from 'material-ui/Menu';
-import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import ContentLink from 'material-ui/svg-icons/content/link';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper'
+import {MenuItem, MenuList} from 'material-ui/Menu';
+import Grow from 'material-ui/transitions/Grow';
 import Divider from 'material-ui/Divider';
-import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-import Download from 'material-ui/svg-icons/file/file-download';
-import Delete from 'material-ui/svg-icons/action/delete';
+import MenuIcon from 'material-ui-icons/Menu';
+import {Manager, Target, Popper} from 'react-popper';
+
+const styles = theme => ({
+  root: {
+    marginTop: theme.spacing.unit * 3,
+    width: '100%',
+  },
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+});
 
 class Header extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     const {
+      classes,
       title,
       user,
       loginRequestUrl,
@@ -24,77 +39,53 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
       showLogoutMenu,
       showMainMenu,
       onToggleLogoutMenu,
-      onToggleMainMenu } = this.props;
+      onToggleMainMenu
+    } = this.props;
     return (
       <div>
-        <AppBar
-          title={title}
-          iconElementRight={
-            user.authenticated
-            ? <FlatButton label={user.name} onClick={onToggleLogoutMenu} />
-            : <FlatButton label="Login" href={loginRequestUrl} />
-          }
-          onLeftIconButtonClick={user.authenticated ? onToggleMainMenu : () => {}}
-        />
-        {
-          showMainMenu && user.authenticated ? HomeMenu(onToggleMainMenu) : ''
-        }
-        {
-          showLogoutMenu && user.authenticated ? LogoutMenu(logoutRequestUrl, onToggleLogoutMenu) : ''
-        }
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
+              <MenuIcon onClick={onToggleMainMenu}/>
+            </IconButton>
+            <Typography type="title" color="inherit" className={classes.flex}>
+              {title}
+            </Typography>
+            {user.authenticated ?
+              (<Manager>
+                <Target>
+                  <Button color="contrast" onClick={onToggleLogoutMenu}>{user.name}</Button>
+                </Target>
+                <Popper placement="bottom-start" eventsEnabled={user.authenticated && showLogoutMenu}>
+                  <Grow
+                    in={user.authenticated && showLogoutMenu}
+                    id="menu-list"
+                    style={{transformOrigin: '0 0 0'}}>
+                    <Paper>
+                      <MenuList role="menu">
+                        <MenuItem onClick={onToggleLogoutMenu}>Profile</MenuItem>
+                        <MenuItem onClick={onToggleLogoutMenu}>My account</MenuItem>
+                        <Divider light/>
+                        <a href={logoutRequestUrl}>
+                          <MenuItem onClick={onToggleLogoutMenu}>Logout</MenuItem>
+                        </a>
+                      </MenuList>
+                    </Paper>
+                  </Grow>
+                </Popper>
+              </Manager>)
+              :
+              <Button color="contrast" href={loginRequestUrl}>LOGIN</Button>
+            }
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }
 }
 
-
-const LogoutMenuStyle = {
-  paper: {
-    display: 'inline-block',
-    float: 'right',
-  },
-};
-
-const LogoutMenu = (logoutRequestUrl, onMenuItemClick) => (
-  <div>
-    <Paper style={LogoutMenuStyle.paper}>
-      <Menu onClick={onMenuItemClick}>
-        <MenuItem primaryText="LOGOUT" href={logoutRequestUrl} />
-      </Menu>
-    </Paper>
-  </div>
-);
-
-
-const HomeMenuStyle = {
-  paper: {
-    display: 'inline-block',
-    float: 'left',
-  },
-  rightIcon: {
-    textAlign: 'center',
-    lineHeight: '24px',
-  },
-};
-
-const HomeMenu = (onMenuItemClick) => (
-  <div>
-    <Paper style={HomeMenuStyle.paper}>
-      <Menu onClick={onMenuItemClick}>
-        <MenuItem primaryText="Preview" leftIcon={<RemoveRedEye />} />
-        <MenuItem primaryText="Share" leftIcon={<PersonAdd />} />
-        <MenuItem primaryText="Get links" leftIcon={<ContentLink />} />
-        <Divider />
-        <MenuItem primaryText="Make a copy" leftIcon={<ContentCopy />} />
-        <MenuItem primaryText="Download" leftIcon={<Download />} />
-        <Divider />
-        <MenuItem primaryText="Remove" leftIcon={<Delete />} />
-      </Menu>
-    </Paper>
-  </div>
-);
-
 Header.propTypes = {
+  classes: PropTypes.object.isRequired,
   title: PropTypes.string,
   user: PropTypes.object,
   loginRequestUrl: PropTypes.string,
@@ -105,4 +96,4 @@ Header.propTypes = {
   onToggleMainMenu: PropTypes.func,
 };
 
-export default Header;
+export default withStyles(styles)(Header);

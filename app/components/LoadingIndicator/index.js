@@ -1,27 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import RefreshIndicator from 'material-ui/RefreshIndicator';
+import { withStyles } from 'material-ui/styles';
+import { CircularProgress } from 'material-ui/Progress';
 
-const style = {
-  refresh: {
-    display: 'inline-block',
-    position: 'relative',
+const styles = theme => ({
+  progress: {
+    margin: `0 ${theme.spacing.unit * 2}px`,
   },
-};
+});
+
 
 class LoadingIndicator extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { classes } = this.props;
     return (
-      <RefreshIndicator
-        size={50}
-        left={70}
-        top={0}
-        loadingColor="#FF9800"
-        status="loading"
-        style={style.refresh}
-      />
+      <CircularProgress className={classes.progress} size={50} color="accent" />
     );
   }
 }
 
-export default LoadingIndicator;
+LoadingIndicator.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(LoadingIndicator);

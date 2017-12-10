@@ -1,5 +1,5 @@
 /*
- * HomeConstants
+ * HomePage Constants
  * Each action has a corresponding type, which the reducer knows and picks up on.
  * To avoid weird typos between the reducer and the actions, we save them as
  * constants here. We prefix them with 'yourproject/YourComponent' so we avoid
@@ -18,4 +18,4 @@ export const TOGGLE_HOME_MENU = 'toggleHomeMenu';
 export const TOGGLE_LOGOUT_MENU = 'toggleLogoutMenu';
 
 // Other Constants
-export const HOME = 'home';
+export const HOME_PAGE = 'homePage';

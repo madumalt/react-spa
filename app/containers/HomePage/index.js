@@ -17,6 +17,9 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import Header from 'components/Header';
+import Body from 'containers/HomePageBody/Loadable';
+import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -35,7 +38,7 @@ import {
   toggleLogoutMenu,
 } from './actions';
 import {
-  HOME,
+  HOME_PAGE,
 } from './constants';
 
 class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -50,16 +53,25 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
       onToggleLogoutMenu } = this.props;
     return (
       <div>
-        <Header
-          title="Mobile Shop"
-          user={user}
-          loginRequestUrl={loginRequestUrl}
-          logoutRequestUrl={logoutRequestUrl}
-          showMainMenu={showHomeMenu}
-          showLogoutMenu={showLogoutMenu}
-          onToggleLogoutMenu={onToggleLogoutMenu}
-          onToggleMainMenu={onToggleHomeMenu}
-        />
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <Paper>
+              <Header
+                title="Mobile Shop"
+                user={user}
+                loginRequestUrl={loginRequestUrl}
+                logoutRequestUrl={logoutRequestUrl}
+                showMainMenu={showHomeMenu}
+                showLogoutMenu={showLogoutMenu}
+                onToggleLogoutMenu={onToggleLogoutMenu}
+                onToggleMainMenu={onToggleHomeMenu}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            {user && user.name && user.authenticated ? <Body/> : " '"}
+          </Grid>
+        </Grid>
       </div>
     );
   }
@@ -94,8 +106,8 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: HOME, reducer });
-const withSaga = injectSaga({ key: HOME, saga });
+const withReducer = injectReducer({ key: HOME_PAGE, reducer });
+const withSaga = injectSaga({ key: HOME_PAGE, saga });
 
 export default compose(
   withReducer,

@@ -14,17 +14,16 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const theme = createMuiTheme();
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+      <MuiThemeProvider theme={theme} >
         <div>
           <Switch>
             <Route exact path="/" component={HomePage} />

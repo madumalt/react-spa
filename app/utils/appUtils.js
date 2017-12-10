@@ -31,9 +31,16 @@ const getProxyLogoutEndPoint = () => `https://localhost:8443/oauth2-proxy/logout
 
 const getProxyUsersEndpoint = () => `https://localhost:8443/oauth2-proxy/users?session-id=${getAppSessionId()}`;
 
+const getDummyAPIEndPoint = (resourceName) =>
+  `https://localhost:8443/oauth2-proxy/api/oauth2-proxy/dummy/secured-resource?resource-name=${resourceName}`;
+
+const getProxyUserInfoEndpoint = () => `https://localhost:8443/oauth2-proxy/userinfo?session-id=${getAppSessionId()}`;
+
 export {
   getAppSessionId,
   getProxyLoginEndPoint,
   getProxyLogoutEndPoint,
   getProxyUsersEndpoint,
+  getDummyAPIEndPoint,
+  getProxyUserInfoEndpoint,
 };

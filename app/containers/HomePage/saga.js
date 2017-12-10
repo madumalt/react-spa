@@ -1,5 +1,5 @@
 /**
- *
+ * HomPage Saga for asynchronous flows.
  */
 import { call, put } from 'redux-saga/effects';
 
@@ -14,10 +14,9 @@ import {
 
 function* callProxyUserEndPoint() {
   const userEndpoint = getProxyUsersEndpoint();
-
   try {
     // Call the proxy login endpoint via utils/request.
-    const response = yield call(
+    const jsonResponse = yield call(
       requestJSON,
       userEndpoint,
       {
@@ -25,17 +24,21 @@ function* callProxyUserEndPoint() {
         credentials: 'include',
       }
     );
-    yield put(authenticatedUserFound(response.sub));
-    yield put(setLogoutRequestUrl(getProxyLogoutEndPoint()));
+    // Actions must be plain objects. Need to Use custom middleware for async actions.
+    if (Boolean(jsonResponse)) {
+      const userName = jsonResponse.sub;
+      yield put(authenticatedUserFound(userName));
+      yield put(setLogoutRequestUrl(getProxyLogoutEndPoint()));
+    } else {
+      yield put(noAuthenticatedUserFound());
+      yield put(setLoginRequestUrl(getProxyLoginEndPoint()));
+    }
   } catch (err) {
-    yield put(noAuthenticatedUserFound(err));
+    yield put(noAuthenticatedUserFound());
     yield put(setLoginRequestUrl(getProxyLoginEndPoint()));
   }
 }
 
-function* HomeSaga() {
+export default function* HomePageSaga() {
   yield callProxyUserEndPoint();
 }
-
-export default HomeSaga;
-
